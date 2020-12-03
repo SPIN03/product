@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 
-import { ProductCreateDto } from './dto/sku-create.dto';
+import { ProductCreateDto } from '../dto/sku-create.dto';
 import { SkuService } from './sku.service';
 
 @Controller('sku')

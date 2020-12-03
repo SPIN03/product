@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { getConnection } from 'typeorm';
-import { ProductCreateDto } from './dto/sku-create.dto';
+import { ProductCreateDto } from '../dto/sku-create.dto';
 import { SkuRepository, SkulogRepository } from './sku.repository';
 import { productdata, product_log } from 'src/entity/prodata.entity';
 
@@ -82,7 +82,7 @@ export class SkuService {
             product.quantity = quantity
             product.note = note
             await product.save();
-            productlog.productdata = product
+            productlog.productid = product
             productlog.sku_updated = sku
             productlog.price_updated = price
             productlog.quantity_updated = quantity
@@ -116,7 +116,7 @@ export class SkuService {
             find.quantity = find.quantity + quantity
             find.note = note
             await find.save()
-            productlog.productdata = find;
+            productlog.productid = find;
             productlog.sku_updated = sku
             productlog.price_updated = price
             productlog.quantity_updated = quantity
