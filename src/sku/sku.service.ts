@@ -82,7 +82,7 @@ export class SkuService {
             product.quantity = quantity
             product.note = note
             await product.save();
-            productlog.id_product = product.id
+            productlog.productdata = product
             productlog.sku_updated = sku
             productlog.price_updated = price
             productlog.quantity_updated = quantity
@@ -116,7 +116,7 @@ export class SkuService {
             find.quantity = find.quantity + quantity
             find.note = note
             await find.save()
-            productlog.id_product = find.id
+            productlog.productdata = find;
             productlog.sku_updated = sku
             productlog.price_updated = price
             productlog.quantity_updated = quantity
