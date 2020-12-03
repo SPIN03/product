@@ -80,7 +80,7 @@ export class SkuService {
             product.sku = sku
             product.price = price
             product.quantity = quantity
-            product.CategoryId = categoryid
+            // product.CategoryId = categoryid
             product.note = note
             await product.save();
             productlog.productid = product
@@ -115,7 +115,7 @@ export class SkuService {
             find.sku = sku
             find.price = price
             find.quantity = find.quantity + quantity
-            find.CategoryId = categoryid
+            // find.CategoryId = categoryid
             find.note = note
             await find.save()
             productlog.productid = find;
