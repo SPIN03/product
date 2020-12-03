@@ -1,5 +1,6 @@
 import { Optional } from "@nestjs/common";
-import { IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { Category } from "src/entity/prodata.entity";
 
 export class ProductCreateDto {
     @IsString()
@@ -12,11 +13,15 @@ export class ProductCreateDto {
 
     @IsNumber()
     @IsNotEmpty()
-    price:number;
+    categoryid: Category;
+
+    @IsNumber()
+    @IsNotEmpty()
+    price: number;
 
     @IsString()
     @IsOptional()
-    note:string;
+    note: string;
 
     // @IsString()
     // @IsOptional()

@@ -74,12 +74,13 @@ export class SkuService {
         try {
             const product = new productdata()
             const productlog = new product_log()
-            const { sku, price, note, quantity } = body;
+            const { sku, price, note, categoryid, quantity } = body;
             const findproduct = await this.product.findOne({ where: { sku: sku } })
             if (findproduct) throw new Error('มีชื่อซ้ำ');
             product.sku = sku
             product.price = price
             product.quantity = quantity
+            product.CategoryId = categoryid
             product.note = note
             await product.save();
             productlog.productid = product
@@ -107,13 +108,14 @@ export class SkuService {
     async updateProduct(id: number, body: ProductCreateDto) {
         try {
             const productlog = new product_log()
-            const { sku, price, note, quantity } = body;
+            const { sku, price, note, categoryid, quantity } = body;
             const find = await this.product.findOne({ where: { id: id } })
             if (!find) throw new Error('not found.');
             if (find.quantity + quantity < 0) throw new Error('สินค้าไม่พอ');
             find.sku = sku
             find.price = price
             find.quantity = find.quantity + quantity
+            find.CategoryId = categoryid
             find.note = note
             await find.save()
             productlog.productid = find;
