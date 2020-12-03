@@ -1,5 +1,5 @@
 
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany, ManyToOne, BaseEntity } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToOne, ManyToOne, BaseEntity } from 'typeorm';
 
 @Entity()
 export class productdata extends BaseEntity {
@@ -17,6 +17,9 @@ export class productdata extends BaseEntity {
 
     @Column({ nullable: true })
     note: string
+
+    @OneToOne(type => Category, Category => Category.id)
+    CategoryId: Category
 
 
 }
@@ -42,6 +45,19 @@ export class product_log extends BaseEntity {
     date_created: Date;
 
     @ManyToOne(type => productdata, productdata => productdata.id)
-    productdata: productdata;
+    productid: productdata;
+
+
+}
+
+@Entity()
+export class Category extends BaseEntity {
+    @PrimaryGeneratedColumn()
+    id: number
+
+    @Column()
+    name: string
+
+
 }
 
