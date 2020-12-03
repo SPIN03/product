@@ -13,7 +13,7 @@ export class ProductCreateDto {
 
     @IsNumber()
     @IsNotEmpty()
-    categoryid: Category;
+    categoryid: number;
 
     @IsNumber()
     @IsNotEmpty()

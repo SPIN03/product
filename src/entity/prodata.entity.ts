@@ -1,66 +1,70 @@
 import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  OneToOne,
-  ManyToOne,
-  BaseEntity,
-  OneToMany,
+    Entity,
+    Column,
+    PrimaryGeneratedColumn,
+    CreateDateColumn,
+    OneToOne,
+    ManyToOne,
+    BaseEntity,
+    OneToMany,
+    JoinColumn,
 } from 'typeorm';
 
 @Entity()
 export class productdata extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @Column()
-  sku: string;
+    @Column()
+    sku: string;
 
-  @Column()
-  quantity: number;
+    @Column()
+    quantity: number;
 
-  @Column()
-  price: number;
+    @Column()
+    price: number;
 
-  @Column({ nullable: true })
-  note: string;
+    @Column({ nullable: true })
+    note: string;
 
-  @OneToMany((type) => Category, (Category) => Category.id)
-  CategoryId: Category[];
+    @ManyToOne((type) => Category, (Category) => Category.id)
+    CategoryId: Category | number;
 }
 
 @Entity()
 export class product_log extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @Column()
-  quantity_updated: number;
+    @Column()
+    quantity_updated: number;
 
-  @Column()
-  sku_updated: string;
+    @Column()
+    sku_updated: string;
 
-  @Column()
-  price_updated: number;
+    @Column()
+    price_updated: number;
 
-  @Column({ nullable: true })
-  note_updated: string;
+    @Column({ nullable: true })
+    note_updated: string;
 
-  @CreateDateColumn()
-  date_created: Date;
+    @CreateDateColumn()
+    date_created: Date;
 
-  @ManyToOne((type) => productdata, (productdata) => productdata.id)
-  productid: productdata;
+
+    @ManyToOne((type) => productdata, (productdata) => productdata.id)
+    productid: productdata;
 
 
 }
 
 @Entity()
 export class Category extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @Column()
-  name: string;
+    @Column()
+    name: string;
+    @OneToMany(type => productdata, productdata => productdata.CategoryId)
+    prductdata: productdata[]
 }

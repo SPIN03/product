@@ -3,11 +3,12 @@ import { getConnection } from 'typeorm';
 import { ProductCreateDto } from '../dto/sku-create.dto';
 import { SkuRepository, SkulogRepository } from './sku.repository';
 import { productdata, product_log } from 'src/entity/prodata.entity';
+import { CategoryRepository } from 'src/category/category.repository';
 
 
 @Injectable()
 export class SkuService {
-    constructor(private readonly product: SkuRepository, private readonly log: SkulogRepository) { }
+    constructor(private readonly product: SkuRepository, private readonly log: SkulogRepository, private readonly category: CategoryRepository) { }
 
     async getProduct() {
         try {
@@ -76,11 +77,12 @@ export class SkuService {
             const productlog = new product_log()
             const { sku, price, note, categoryid, quantity } = body;
             const findproduct = await this.product.findOne({ where: { sku: sku } })
+            const category = await this.category.findOne({ where: { id: categoryid } })
             if (findproduct) throw new Error('มีชื่อซ้ำ');
             product.sku = sku
             product.price = price
             product.quantity = quantity
-            // product.CategoryId = categoryid
+            product.CategoryId = category
             product.note = note
             await product.save();
             productlog.productid = product

@@ -6,9 +6,9 @@ import { UsersModule } from './users/users.module';
 import { CategoryModule } from './category/category.module';
 
 
-@Module({ 
-  controllers: [ ],
+@Module({
+  controllers: [],
   providers: [],
-  imports: [SkuModule,TypeOrmModule.forRoot(orm_config), UsersModule, CategoryModule],
+  imports: [SkuModule, TypeOrmModule.forRoot(orm_config), UsersModule, CategoryModule],
 })
-export class AppModule {}
+export class AppModule { }
