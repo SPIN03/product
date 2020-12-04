@@ -21,6 +21,11 @@ export class SkuController {
         return this.skuservice.getLog(id);
     }
 
+    @Get(':id/getproductid')
+    @UsePipes(new ValidationPipe())
+    async getproductid(@Param('id', ParseIntPipe) id: number) {
+        return this.skuservice.getbyId(id);
+    }
 
 
     @Post('addproduct')

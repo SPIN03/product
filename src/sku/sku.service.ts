@@ -13,7 +13,8 @@ export class SkuService {
     async getProduct() {
         try {
             const datafind = await this.product.find()
-            if (!datafind) throw new Error('no data');
+
+            if (!datafind.length) throw new Error('no data');
             return {
                 success: true,
                 data: datafind
@@ -26,6 +27,25 @@ export class SkuService {
             });
         }
     }
+
+    async getbyId(id: number) {
+        try {
+            const find = await this.product.findOne({ where: { id: id } })
+            // console.log(find)
+            if (!find) throw new Error('no product data ');
+
+            return {
+                success: true,
+                data: find
+            }
+        } catch (error) {
+            throw new NotFoundException({
+                success: false,
+                message: error.message,
+            });
+        }
+    }
+
 
     async getLog(id: number) {
         try {

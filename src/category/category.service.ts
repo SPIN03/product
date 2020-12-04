@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { SkuRepository } from 'src/sku/sku.repository';
 import { CategoryRepository } from './category.repository';
 
 @Injectable()
@@ -9,6 +10,9 @@ export class CategoryService {
 
         try {
             const find = await this.cetegory.find()
+            // console.log(find)
+            // const product = await this.product.find({ where: { CategoryId: find } })
+            // console.log(product)
             if (!find) throw new Error('no data');
             return {
                 success: true,
