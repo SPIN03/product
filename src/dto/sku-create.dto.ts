@@ -12,7 +12,7 @@ export class ProductCreateDto {
     quantity: number;
 
     @IsNumber()
-    @IsNotEmpty()
+    @IsOptional()
     categoryid: number;
 
     @IsNumber()

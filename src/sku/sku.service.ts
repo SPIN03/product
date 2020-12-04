@@ -2,7 +2,7 @@ import { Injectable, NotFoundException, BadRequestException } from '@nestjs/comm
 import { getConnection } from 'typeorm';
 import { ProductCreateDto } from '../dto/sku-create.dto';
 import { SkuRepository, SkulogRepository } from './sku.repository';
-import { productdata, product_log } from 'src/entity/prodata.entity';
+import { productdata, product_log, Category } from 'src/entity/prodata.entity';
 import { CategoryRepository } from 'src/category/category.repository';
 
 
@@ -78,12 +78,31 @@ export class SkuService {
             const { sku, price, note, categoryid, quantity } = body;
             const findproduct = await this.product.findOne({ where: { sku: sku } })
             const category = await this.category.findOne({ where: { id: categoryid } })
+
             if (findproduct) throw new Error('มีชื่อซ้ำ');
             product.sku = sku
             product.price = price
             product.quantity = quantity
-            product.CategoryId = category
             product.note = note
+            if (category) {
+                product.CategoryId = categoryid
+            } else {
+                const find = await this.category.findOne({ where: { name: 'uncategory' } })
+                if (find) {
+
+                    product.CategoryId = find
+                    console.log('catepro id:', product.CategoryId)
+                } else {
+                    const _category = new Category();
+                    _category.name = 'uncategory';
+                    await _category.save();
+                    product.CategoryId = _category.id
+                    console.log('id create :', product.CategoryId)
+                }
+
+            }
+
+
             await product.save();
             productlog.productid = product
             productlog.sku_updated = sku
@@ -112,12 +131,22 @@ export class SkuService {
             const productlog = new product_log()
             const { sku, price, note, categoryid, quantity } = body;
             const find = await this.product.findOne({ where: { id: id } })
+            const categoryfind = await this.category.findOne({ where: { id: categoryid } })
             if (!find) throw new Error('not found.');
             if (find.quantity + quantity < 0) throw new Error('สินค้าไม่พอ');
+            if (!categoryfind) {
+                const findCategory = await this.category.findOne({ where: { name: 'uncategory' } })
+                find.CategoryId = findCategory
+            } else {
+
+                find.CategoryId = categoryfind
+
+            }
             find.sku = sku
             find.price = price
             find.quantity = find.quantity + quantity
-            // find.CategoryId = categoryid
+
+
             find.note = note
             await find.save()
             productlog.productid = find;
